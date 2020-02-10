@@ -4,7 +4,7 @@ package taskList;
  */
 import java.time.*;
 
-public class Task {
+public class Task implements Comparable<Task> {
 //	DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_DATE;
 //	String formattedDate = dateFormatter.format(LocalDate.now());
 	
@@ -54,8 +54,15 @@ public class Task {
 	}
 	@Override
 	public String toString() {
-		return "Task [teamMember=" + teamMember + ", description=" + description + ", dueDate=" + dueDate
-				+ ", completion=" + completion + "]";
+		return 	String.format("| %-15s| %-25s| %-15s| %-15s|\n", teamMember,
+				description, String.valueOf(dueDate), completion);
+	}
+	
+	@Override
+	public int compareTo(Task task2) {
+		int comparisonVal;
+		comparisonVal = dueDate.compareTo(task2.getDueDate());
+		return comparisonVal;
 	}
 	
 	

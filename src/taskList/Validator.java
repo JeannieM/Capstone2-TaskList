@@ -8,7 +8,7 @@ import java.util.*;
 public class Validator {
 
 	/**
-	 * Get any valid integer.
+	 * Get any valid integer.WITH PROMPT
 	 */
 	public static int getInt(Scanner scnr, String prompt) {
 		// This approach use "hasNext" look ahead.
@@ -17,6 +17,21 @@ public class Validator {
 			scnr.nextLine(); // clear bad line.
 			System.err.println("Sorry, I can't read that. Enter a whole number, using digits.");
 			System.out.println(prompt);
+		}
+		int result = scnr.nextInt();
+		scnr.nextLine(); // clear for next line of input.
+		return result;
+	}
+	/**
+	 * Get any valid integer.WITHOUT PROMPT
+	 */
+	public static int getInt(Scanner scnr) {
+		// This approach use "hasNext" look ahead.
+		
+		while (!scnr.hasNextInt()) {
+			scnr.nextLine(); // clear bad line.
+			System.err.println("Sorry, I can't read that. Enter a whole number, using digits.");
+			
 		}
 		int result = scnr.nextInt();
 		scnr.nextLine(); // clear for next line of input.
@@ -55,12 +70,14 @@ public class Validator {
 
 	/**
 	 * Get any valid integer between min and max.
+	 * EDITED TO USE getInt scnr, no prompt, so prompt will not print twice
 	 */
 	public static int getInt(Scanner scnr, String prompt, int min, int max) {
 		boolean isValid = false;
 		int number;
+		System.out.println(prompt);
 		do {
-			number = getInt(scnr, prompt);
+			number = getInt(scnr);
 
 			if (number < min) {
 				isValid = false;
@@ -105,8 +122,9 @@ public class Validator {
 	public static String getStringMatchingRegex(Scanner scnr, String prompt, String regex) {
 		boolean isValid = false;
 		String input;
+		System.out.println(prompt);
 		do {
-			input = getString(scnr, prompt);
+			input = scnr.nextLine();
 
 			if (input.matches(regex)) {
 				isValid = true;
@@ -127,13 +145,15 @@ public class Validator {
 			String errorMessage) {
 		boolean isValid = false;
 		String input;
+		System.out.println(prompt);
+		
 		do {
-			input = getString(scnr, prompt);
+			input = scnr.nextLine();
 
 			if (input.matches(regex)) {
 				isValid = true;
 			} else {
-				System.err.println(errorMessage);
+				System.out.println(errorMessage);
 				isValid = false;
 			}
 
@@ -179,21 +199,19 @@ public class Validator {
 
 	public static LocalDate getDate(Scanner scnr, String prompt) {
 		String input;
-		boolean loop = false;
+		System.out.println(prompt);
 		do {
 			try {
 				DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
-				input = getString(scnr, prompt);
+				input = scnr.nextLine();
 				if (input.equalsIgnoreCase("today")) {
 					return LocalDate.now();
 				}
 				LocalDate date = LocalDate.parse(input, formatter);
 				return date;
 			} catch (DateTimeParseException e) {
-				System.err.println("Please enter a valid date (YYYY-MM-DD)");
-				loop = true;
+				System.err.println("Please enter a valid date (YYYY-MM-DD):");
 			}
-		} while (loop);
-		return LocalDate.now();
+		} while (true);
 	}
 }
